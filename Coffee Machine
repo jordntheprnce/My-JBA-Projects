@@ -1,0 +1,76 @@
+class CoffeeMaker:
+    def __init__(self, name, water, milk, bean, cups, price):
+        self.name = name
+        self.water = water
+        self.milk = milk
+        self.bean = bean
+        self.cups = cups
+        self.price = price
+
+    def buy(self, other):
+        if self.water < other.water:
+            print("Sorry, not enough water!")
+            print()
+        elif self.bean < other.bean:
+            print("Sorry, not enough beans!")
+            print()
+        elif self.cups < other.cups:
+            print("Sorry, not enough cups!")
+            print()
+        else:
+            self.water -= other.water
+            self.milk -= other.milk
+            self.bean -= other.bean
+            self.cups -= other.cups
+            self.price += other.price
+            if other.milk == 0:
+                print("I have enough resources, making you an " + other.name + "!\n")
+            else:
+                print("I have enough resources, making you a " + other.name + "!\n")
+
+    def __str__(self):
+        return "Inventory is:\n{} ml of water\n{} ml of milk\n{} g of coffee beans\n{} of cups\n{} of money\n".format(self.water, self.milk, self.bean, self.cups, self.price)
+
+    def take(self):
+        print('I gave you ${}'.format(self.price))
+        self.price -= self.price
+        return self.price
+
+    def fill(self, water_add, milk_add, bean_add, cups_add):
+        self.water += water_add
+        self.milk += milk_add
+        self.bean += bean_add
+        self.cups += cups_add
+
+
+coffee_m = CoffeeMaker('Maker', 400, 540, 120, 9, 550)
+latte = CoffeeMaker('Latte', 350, 75, 20, 1, 7)
+cappuccino = CoffeeMaker('Cappuccino', 200, 100, 12, 1, 6)
+espresso = CoffeeMaker('Espresso', 250, 0, 16, 1, 4)
+while True:
+    action_1 = input("Write action (buy, fill, take, remaining, exit): ")
+    print()
+    if action_1 == "buy":
+        action_2 = input("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ")
+        print()
+        if action_2 == "1":
+            coffee_m.buy(espresso)
+        elif action_2 == "2":
+            coffee_m.buy(latte)
+        elif action_2 == "3":
+            coffee_m.buy(cappuccino)
+        elif action_2 == "back":
+            continue
+    elif action_1 == "fill":
+        w_add = int(input("How much water would you like to add? "))
+        m_add = int(input("How much milk would you like to add? "))
+        b_add = int(input("How many beans would you like to add? "))
+        c_add = int(input("How many cups would you like to add? "))
+        print()
+        coffee_m.fill(w_add, m_add, b_add, c_add)
+    elif action_1 == "take":
+        coffee_m.take()
+    elif action_1 == "remaining":
+        print(coffee_m)
+    elif action_1 == "exit":
+        break
